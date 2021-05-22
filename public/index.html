@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta content="telephone=no,email=no" name="format-detection">
+    <meta name="viewport" content="width=device-width,height=device-height,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+    <title></title>
+    <script src = 'js/YT.js'></script>
+    <script src="https://devel-wxact.oss-cn-qingdao.aliyuncs.com/et/wxet-sdk.min.js"></script>
+    <script src="https://devel-wxact.oss-cn-qingdao.aliyuncs.com/et/wxet-sdk-pst.min.js"></script>
+    <script src="https://devel-wxact.oss-cn-qingdao.aliyuncs.com/et/wxet-config.min.js"></script>
+    <!-- <script src="//cdn.jsdelivr.net/npm/eruda"></script>
+    <script>eruda.init();</script> -->
+</head>
+
+<body>
+    <div id="app"></div>
+    <!-- built files will be auto injected -->
+</body>
+<script>
+    (function() {
+        document.addEventListener('DOMContentLoaded', function() {
+            var docEl = document.documentElement;
+            docEl.style.fontSize = 100 * (docEl.clientWidth / 750) + 'px';
+        }, false);
+    })()
+    var agent = navigator.userAgent.toLowerCase(); //检测是否是ios
+    var iLastTouch = null; //缓存上一次tap的时间
+    if (agent.indexOf('iphone') >= 0 || agent.indexOf('ipad') >= 0) {
+        document.body.addEventListener('touchend', function(event) {
+            var iNow = new Date()
+                .getTime();
+            iLastTouch = iLastTouch || iNow + 1 /** 第一次时将iLastTouch设为当前时间+1 */ ;
+            var delta = iNow - iLastTouch;
+            if (delta < 500 && delta > 0) {
+                event.preventDefault();
+                return false;
+            }
+            iLastTouch = iNow;
+        }, false);
+    }
+
+    (function(doc, win) {
+        // 用原生方法获取用户设置的浏览器的字体大小(兼容ie)
+        if (doc.documentElement.currentStyle) {
+            var user_webset_font = doc.documentElement.currentStyle['fontSize'];
+        } else {
+            var user_webset_font = getComputedStyle(doc.documentElement, false)['fontSize'];
+        }
+        // 取整后与默认16px的比例系数
+        var sizeXs = parseFloat(user_webset_font) / 16;
+        // console.log(user_webset_font)
+        // 设置rem的js设置的字体大小
+        var view_jsset_font, result_font;
+        var docEl = doc.documentElement,
+            resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize',
+            clientWidth,
+            recalc = function() {
+                clientWidth = docEl.clientWidth;
+                if (!clientWidth) return;
+                if (!doc.addEventListener) return;
+                if (clientWidth < 750) {
+                    // console.log(clientWidth,clientWidth / 750)
+                    //设置rem的js设置的字体大小
+                    view_jsset_font = 100 * (clientWidth / 750);
+                    //最终的字体大小为rem字体/系数
+                    result_font = view_jsset_font / sizeXs;
+                    // 设置根字体大小
+                    docEl.style.fontSize = result_font + 'px';
+                } else {
+                    docEl.style.fontSize = 100 + 'px';
+                }
+                // console.log(result_font,sizeXs)
+            };
+        win.addEventListener(resizeEvt, recalc, false);
+        doc.addEventListener('DOMContentLoaded', recalc, false);
+    })(document, window);
+</script>
+
+</html>
