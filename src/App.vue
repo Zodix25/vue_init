@@ -5,19 +5,6 @@
 <script>
 export default {
   name: 'App',
-  created () {
-    var domain = window.location.host;
-    var subdomain = domain.split('.')[0];
-    let actId;
-    if (subdomain == '192') {
-      // var actId = "cv69jws9"; //开发
-      actId = 'oxtlsckw'; // 测试
-
-    } else {
-      actId = domain.split('.')[0];
-    }
-    window.localStorage.setItem('actId', actId);
-  },
   mounted () {
     // 创建cnzz统计js
     const script = document.createElement('script');
