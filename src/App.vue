@@ -7,10 +7,6 @@ export default {
   name: 'App',
   mounted () {
     // 创建cnzz统计js
-    const script = document.createElement('script');
-    script.src = 'https://s95.cnzz.com/z_stat.php?id=1279431626&web_id=1279431626';
-    script.language = 'JavaScript';
-    document.body.appendChild(script);
   },
   watch: {
     $route: {
