@@ -6,7 +6,7 @@
 export default {
   name: 'App',
   mounted () {
-    // 创建cnzz统计js
+    
   },
   watch: {
     $route: {
